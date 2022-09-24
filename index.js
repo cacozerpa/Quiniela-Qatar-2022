@@ -1,14 +1,14 @@
 const express = require('express');
 const cors = require('cors');
-const passport = require('passport');
-const cookieParser = require('cookie-parser');
-const session = require('express-session');
 const mongoose = require('mongoose')
 
+const dbUtils = require("./src/utils/db");
 require('dotenv').config();
 
 const app = express();
-const dbUtils = require("./src/utils/db");
+const db = mongoose.connection;
+
+app.use(express.json())
 
 app.use(cors({
     origin: true,
@@ -18,7 +18,6 @@ app.use(cors({
   }))
 
 //DataBase Connection
-const db = mongoose.connection;
 dbUtils();
 
 if(db){
@@ -36,5 +35,5 @@ if(db){
 
 app.get('/', (req, res) => {
     res.send('Server Running!')
-    console.log("Server Running!")
 })
+
