@@ -5,10 +5,14 @@ const mongoose = require('mongoose')
 const dbUtils = require("./src/utils/db");
 require('dotenv').config();
 
+const userRouter = require('./src/routes/user');
+
 const app = express();
+app.use(express.json())
 const db = mongoose.connection;
 
-app.use(express.json())
+// app.use(express.urlencoded( { extended: true } ))
+
 
 app.use(cors({
     origin: true,
@@ -32,6 +36,8 @@ if(db){
 }else{
     db.on("error", console.error.bind(console, "connection error: "))
 }
+
+app.use(userRouter);
 
 app.get('/', (req, res) => {
     res.send('Server Running!')
